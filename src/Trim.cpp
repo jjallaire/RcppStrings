@@ -3,10 +3,36 @@
 
 #include <Rcpp.h>
 
+#include <boost/function.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
 using namespace Rcpp;
 using namespace boost;
+
+namespace {
+
+// Generic character vector transformation logic
+CharacterVector stringTransform(CharacterVector input, 
+                                boost::function<void(std::string&)> transform){
+  
+  CharacterVector output(input.size());
+  for (int i = 0; i<input.size(); i++) {
+    std::string str(input[i]);
+    transform(str);
+    output[i] = str;
+  }
+  return output;   
+}
+
+// some helpers to trap boost string algorithms (wouldn't typically be 
+// necessary for boost::function but they are template functions so 
+// wierd casts would be necessary to use them directly)
+inline void stringTrimAll(std::string& str) { algorithm::trim(str); }
+inline void stringTrimLeft(std::string& str) { algorithm::trim_left(str); }
+inline void stringTrimRight(std::string& str) { algorithm::trim_right(str); }  
+
+} // anonymous namespace
+
 
 //' Trim whitespace from start and end of string
 //' 
@@ -19,14 +45,7 @@ using namespace boost;
 //' }
 // [[Rcpp::export]]
 CharacterVector trimAll(CharacterVector input) {
-  
-  CharacterVector output(input.size());
-  for (int i = 0; i<input.size(); i++) {
-    std::string str(input[i]);
-    algorithm::trim(str);
-    output[i] = str;
-  }
-  return output;   
+  return stringTransform(input, stringTrimAll);
 }
 
 //' Trim whitespace from start of string
@@ -40,14 +59,7 @@ CharacterVector trimAll(CharacterVector input) {
 //' }
 // [[Rcpp::export]]
 CharacterVector trimLeft(CharacterVector input) {
-  
-  CharacterVector output(input.size());
-  for (int i = 0; i<input.size(); i++) {
-    std::string str(input[i]);
-    algorithm::trim_left(str);
-    output[i] = str;
-  }
-  return output;      
+  return stringTransform(input, stringTrimLeft); 
 }
 
 //' Trim whitespace from end of string
@@ -61,12 +73,5 @@ CharacterVector trimLeft(CharacterVector input) {
 //' }
 // [[Rcpp::export]]
 CharacterVector trimRight(CharacterVector input) {
-  
-  CharacterVector output(input.size());
-  for (int i = 0; i<input.size(); i++) {
-    std::string str(input[i]);
-    algorithm::trim_right(str);
-    output[i] = str;
-  }
-  return output;   
+  return stringTransform(input, stringTrimRight);
 }
