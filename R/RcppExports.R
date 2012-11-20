@@ -6,38 +6,13 @@
 #' 
 #' @usage trimAll(input)
 #' @param input input character vector
+#' @param side side on which whitespace is removed (left, right, or both)
 #' @return character vector with leading and trailing whitespace removed
 #' @examples 
 #' \dontrun{
-#' trimAll("\n\nString with trailing and leading white space \t")
+#' trimString("\n\nString with trailing and leading white space \t")
 #' }
-trimAll<- function(input) {}
-
-
-#' Trim whitespace from start of string
-#' 
-#' @usage trimLeft(input)
-#' @param input input character vector
-#' @return character vector with leading whitespace removed
-#' @examples 
-#' \dontrun{
-#' trimLeft("\n\nString with leading white space")
-#' }
-trimLeft<- function(input) {}
-
-
-#' Trim whitespace from end of string
-#' 
-#' @usage trimRight(input)
-#' @param input input character vector
-#' @return character vector with trailing whitespace removed
-#' @examples 
-#' \dontrun{
-#' trimRight("\n\nString with trailing white space")
-#' }
-trimRight<- function(input) {}
+stringTrim<- function(input, side) {}
 
 Rcpp::loadModule("RcppStrings_RcppExports", 
-    what = c("trimAll",
-             "trimLeft",
-             "trimRight"))
+    what = c("stringTrim"))

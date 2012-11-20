@@ -18,31 +18,13 @@ namespace RcppStrings {
         }
     }
 
-    inline CharacterVector trimAll(CharacterVector input) {
-        static CharacterVector(*p_trimAll)(CharacterVector) = NULL;
-        if (p_trimAll == NULL) {
-            validateExported("CharacterVector(*trimAll)(CharacterVector)");
-            p_trimAll = Rcpp::GetCppCallable("RcppStrings", "RcppStrings_RcppExports", "trimAll");
+    inline CharacterVector stringTrim(CharacterVector input, std::string side = "both") {
+        static CharacterVector(*p_stringTrim)(CharacterVector,std::string) = NULL;
+        if (p_stringTrim == NULL) {
+            validateExported("CharacterVector(*stringTrim)(CharacterVector,std::string)");
+            p_stringTrim = Rcpp::GetCppCallable("RcppStrings", "RcppStrings_RcppExports", "stringTrim");
         }
-        return p_trimAll(input);
-    }
-
-    inline CharacterVector trimLeft(CharacterVector input) {
-        static CharacterVector(*p_trimLeft)(CharacterVector) = NULL;
-        if (p_trimLeft == NULL) {
-            validateExported("CharacterVector(*trimLeft)(CharacterVector)");
-            p_trimLeft = Rcpp::GetCppCallable("RcppStrings", "RcppStrings_RcppExports", "trimLeft");
-        }
-        return p_trimLeft(input);
-    }
-
-    inline CharacterVector trimRight(CharacterVector input) {
-        static CharacterVector(*p_trimRight)(CharacterVector) = NULL;
-        if (p_trimRight == NULL) {
-            validateExported("CharacterVector(*trimRight)(CharacterVector)");
-            p_trimRight = Rcpp::GetCppCallable("RcppStrings", "RcppStrings_RcppExports", "trimRight");
-        }
-        return p_trimRight(input);
+        return p_stringTrim(input,side);
     }
 
 }

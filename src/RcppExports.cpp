@@ -7,23 +7,17 @@
 
 using namespace Rcpp;
 
-CharacterVector trimAll(CharacterVector input);
-CharacterVector trimLeft(CharacterVector input);
-CharacterVector trimRight(CharacterVector input);
+CharacterVector stringTrim(CharacterVector input, std::string side = "both");
 
 static bool validateExported(const std::string& sig) {
     static std::set<std::string> signatures;
     if (signatures.empty()) {
-        signatures.insert("CharacterVector(*trimAll)(CharacterVector)");
-        signatures.insert("CharacterVector(*trimLeft)(CharacterVector)");
-        signatures.insert("CharacterVector(*trimRight)(CharacterVector)");
+        signatures.insert("CharacterVector(*stringTrim)(CharacterVector,std::string)");
     }
     return signatures.find(sig) != signatures.end();
 }
 
 RCPP_MODULE(RcppStrings_RcppExports) {
-    Rcpp::function("trimAll", &trimAll, Rcpp::List::create(Rcpp::Named("input")));
-    Rcpp::function("trimLeft", &trimLeft, Rcpp::List::create(Rcpp::Named("input")));
-    Rcpp::function("trimRight", &trimRight, Rcpp::List::create(Rcpp::Named("input")));
+    Rcpp::function("stringTrim", &stringTrim, Rcpp::List::create(Rcpp::Named("input"), Rcpp::Named("side") = "both"));
     Rcpp::function("RcppExports_validateExported", &validateExported);
 }
