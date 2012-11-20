@@ -3,7 +3,6 @@
 
 #include <Rcpp.h>
 
-#include <boost/function.hpp>
 #include <boost/algorithm/string/trim.hpp>
 
 using namespace Rcpp;
@@ -27,9 +26,10 @@ CharacterVector stringTransform(CharacterVector input, Transformer transform) {
 
 } // anonymous namespace
 
+
 //' Trim whitespace from start and end of string
 //' 
-//' @usage trimAll(input)
+//' @usage trim(input, side = "both")
 //' @param input input character vector
 //' @param side side on which whitespace is removed (left, right, or both)
 //' @return character vector with leading and trailing whitespace removed
@@ -38,7 +38,7 @@ CharacterVector stringTransform(CharacterVector input, Transformer transform) {
 //' trimString("\n\nString with trailing and leading white space \t")
 //' }
 // [[Rcpp::export]]
-CharacterVector stringTrim(CharacterVector input, std::string side="both") {
+CharacterVector stringTrim(CharacterVector input, std::string side = "both") {
   
   // select correct transformation
   Transformer transform = NULL;

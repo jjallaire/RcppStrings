@@ -4,7 +4,7 @@
 
 #' Trim whitespace from start and end of string
 #' 
-#' @usage trimAll(input)
+#' @usage trim(input, side = "both")
 #' @param input input character vector
 #' @param side side on which whitespace is removed (left, right, or both)
 #' @return character vector with leading and trailing whitespace removed

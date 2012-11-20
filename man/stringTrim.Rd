@@ -1,11 +1,14 @@
-\name{trimAll}
-\alias{trimAll}
+\name{stringTrim}
+\alias{stringTrim}
 \title{Trim whitespace from start and end of string}
 \usage{
-  trimAll(input)
+  trim(input, side = "both")
 }
 \arguments{
   \item{input}{input character vector}
+
+  \item{side}{side on which whitespace is removed (left,
+  right, or both)}
 }
 \value{
   character vector with leading and trailing whitespace
@@ -16,7 +19,7 @@
 }
 \examples{
 \dontrun{
-trimAll("\\n\\nString with trailing and leading white space \\t")
+trimString("\\n\\nString with trailing and leading white space \\t")
 }
 }
 
