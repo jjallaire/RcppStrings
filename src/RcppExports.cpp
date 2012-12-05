@@ -7,9 +7,19 @@
 
 using namespace Rcpp;
 
+// stringTrim
 CharacterVector stringTrim(CharacterVector input, std::string side = "both");
+RcppExport SEXP RcppStrings_stringTrim(SEXP inputSEXP, SEXP sideSEXP) {
+BEGIN_RCPP
+    CharacterVector input = Rcpp::as<CharacterVector >(inputSEXP);
+    std::string side = Rcpp::as<std::string >(sideSEXP);
+    CharacterVector result = stringTrim(input, side);
+    return Rcpp::wrap(result);
+END_RCPP
+}
 
-static bool validateExported(const std::string& sig) {
+// validate (ensure exported C++ functions exist before calling them)
+static int RcppStrings_RcppExport_validate(const char* sig) { 
     static std::set<std::string> signatures;
     if (signatures.empty()) {
         signatures.insert("CharacterVector(*stringTrim)(CharacterVector,std::string)");
@@ -17,7 +27,9 @@ static bool validateExported(const std::string& sig) {
     return signatures.find(sig) != signatures.end();
 }
 
-RCPP_MODULE(RcppStrings_RcppExports) {
-    Rcpp::function("stringTrim", &stringTrim, Rcpp::List::create(Rcpp::Named("input"), Rcpp::Named("side") = "both"));
-    Rcpp::function("RcppExports_validateExported", &validateExported);
+// registerCCallable (register entry points for exported C++ functions)
+RcppExport SEXP RcppStrings_RcppExport_registerCCallable() { 
+    R_RegisterCCallable("RcppStrings", "RcppStrings_stringTrim", (DL_FUNC)RcppStrings_stringTrim);
+    R_RegisterCCallable("RcppStrings", "RcppStrings_RcppExport_validate", (DL_FUNC)RcppStrings_RcppExport_validate);
+    return R_NilValue;
 }

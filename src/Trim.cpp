@@ -37,7 +37,7 @@ CharacterVector stringTransform(CharacterVector input, Transformer transform) {
 //' \dontrun{
 //' trimString("\n\nString with trailing and leading white space \t")
 //' }
-// [[Rcpp::export]]
+// [[Rcpp::export("stringTrim")]]
 CharacterVector stringTrim(CharacterVector input, std::string side = "both") {
   
   // select correct transformation
@@ -51,9 +51,9 @@ CharacterVector stringTrim(CharacterVector input, std::string side = "both") {
   else {
     // we need to fix a bug in Rcpp modules to allow throwing exceptions
     // from module functions. for now we just warn and return the input
-    Rf_warning("Unrecognized side argument '%s'", side.c_str());
-    return input;
-  }
+    stop("Unrecognized side argument '" + side + "'");
+    return input; // keep compiler happy
+  } 
     
   // perform the transformation
   return stringTransform(input, transform);
